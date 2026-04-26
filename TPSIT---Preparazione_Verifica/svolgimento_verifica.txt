@@ -1,0 +1,82 @@
+=========================================================
+DOCUMENTAZIONE API REST E SVOLGIMENTO VERIFICA
+Progetto: API Gestione Libreria (Node.js, Express, EJS)
+=========================================================
+
+1. PASSAGGI PRATICI PER CREARE IL PROGETTO (Visual Studio Code)
+---------------------------------------------------------
+Per ricreare questo progetto da zero, apri il terminale in VS Code e digita:
+
+1. Crea la cartella e entraci: 
+   mkdir verifica-api
+   cd verifica-api
+2. Inizializza il progetto Node: 
+   npm init -y
+3. Installa i pacchetti necessari (Express per il server, EJS per il frontend): 
+   npm install express ejs
+4. Crea la struttura delle cartelle:
+   mkdir views
+   mkdir views/partials
+5. Crea i file app.js, index.ejs, dettaglio.ejs, etc. (come da struttura allegata).
+6. Per avviare il server scrivi: 
+   node app.js
+   (Vai sul browser all'indirizzo http://localhost:3000)
+
+2. TEORIA: DEFINIZIONI FONDAMENTALI
+---------------------------------------------------------
+* COS'È UN'API? (Application Programming Interface)
+Un'API è un insieme di regole e protocolli che permette a due software diversi di comunicare tra loro. Immaginala come un cameriere al ristorante: tu (il Client) fai un ordine al cameriere (l'API), che lo porta in cucina (il Server/Database) e poi ti riporta il piatto pronto (la Risposta).
+
+* COS'È REST? (Representational State Transfer)
+REST è uno stile architetturale per la progettazione di sistemi di rete. Non è un linguaggio o una libreria, ma una serie di linee guida. Un'API è definita "RESTful" se rispetta queste regole, tra cui l'utilizzo standard dei metodi HTTP (GET, POST, PUT, DELETE) e la divisione logica in "Risorse" (es. /libri, /utenti).
+
+* COSA FORMANO ASSIEME (API REST)?
+Un'API REST è un'interfaccia web che permette a un client di interagire con i dati di un server scambiando informazioni (solitamente in formato JSON, anche se qui usiamo EJS per la visualizzazione visiva richiesta) seguendo rigorosamente l'architettura REST e i metodi HTTP standard.
+
+* COS'È IL CRUD?
+CRUD è l'acronimo delle 4 operazioni fondamentali eseguibili su un database o su una risorsa:
+- C = Create (Creare un dato -> associato al metodo HTTP POST)
+- R = Read (Leggere un dato -> associato al metodo HTTP GET)
+- U = Update (Aggiornare un dato -> associato al metodo HTTP PUT/PATCH)
+- D = Delete (Eliminare un dato -> associato al metodo HTTP DELETE)
+
+3. ANALISI DELL'API "GESTIONE LIBRERIA" (L'Oggetto/Servizio)
+---------------------------------------------------------
+L'oggetto del nostro servizio è la risorsa "Libro". L'API espone i seguenti endpoint per gestire il CRUD su questa risorsa:
+
+1. [READ - Lista intera]
+   - Metodo: GET
+   - Endpoint: '/'
+   - Descrizione: Recupera l'elenco di tutti i libri presenti nel sistema e li mostra in una pagina HTML.
+
+2. [READ - Singolo elemento]
+   - Metodo: GET
+   - Endpoint: '/libro/:id'
+   - Descrizione: Sfrutta il routing parametrico. Cerca nel database il libro con l'ID specificato e ne mostra i dettagli (Titolo, Autore, Anno).
+
+3. [CREATE - Form di inserimento]
+   - Metodo: GET
+   - Endpoint: '/nuovo'
+   - Descrizione: Restituisce l'interfaccia visiva (il form EJS) per inserire i dati di un nuovo libro.
+
+4. [CREATE - Salvataggio dato]
+   - Metodo: POST
+   - Endpoint: '/nuovo'
+   - Descrizione: Riceve i dati dal form inviato dall'utente (req.body), genera un nuovo ID incrementale, crea l'oggetto e lo salva nell'array, per poi ricaricare la lista.
+
+5. [DELETE - Eliminazione]
+   - Metodo: GET (Nota: In una vera API REST pura sarebbe DELETE, ma nei semplici form HTML senza JS lato client usiamo una rotta GET per semplicità didattica).
+   - Endpoint: '/elimina/:id'
+   - Descrizione: Intercetta l'ID passato nell'URL, filtra l'array rimuovendo l'oggetto corrispondente e ricarica la home page.
+
+6. [UPDATE - Form di modifica]
+   - Metodo: GET
+   - Endpoint: '/modifica/:id'
+   - Descrizione: Restituisce l'interfaccia visiva (il form EJS) pre-compilato per modificare i dati di un libro esistente.
+
+7. [UPDATE - Salvataggio modifica]
+   - Metodo: POST
+   - Endpoint: '/modifica/:id'
+   - Descrizione: Riceve i dati dal form inviato dall'utente (req.body), aggiorna l'oggetto nell'array e ricarica la lista.
+
+*CONSIGLIO PER LA VERIFICA: Ricordati sempre di inserire "app.use(express.urlencoded({ extended: true }));" prima delle rotte. Senza questa riga, il server Express non riuscirà a leggere i dati inviati dai Form (req.body) e l'operazione di CREATE fallirà (ti darà undefined).*

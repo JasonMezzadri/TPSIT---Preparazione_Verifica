@@ -1,0 +1,16 @@
+<%- include('partials/header') %>
+
+<form action="/nuovo" method="POST">
+    <label>Titolo:</label><br>
+    <input type="text" name="titolo" required><br><br>
+
+    <label>Autore:</label><br>
+    <input type="text" name="autore" required><br><br>
+
+    <label>Anno:</label><br>
+    <input type="number" name="anno" required><br><br>
+
+    <button type="submit">Salva Libro</button>
+</form>
+
+<%- include('partials/footer') %>

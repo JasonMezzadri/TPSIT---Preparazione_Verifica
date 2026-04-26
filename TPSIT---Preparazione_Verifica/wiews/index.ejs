@@ -1,0 +1,18 @@
+<%- include('partials/header') %>
+
+<% if (libri.length === 0) { %>
+    <p>Nessun libro presente.</p>
+<% } else { %>
+    <ul>
+        <% libri.forEach(function(libro) { %>
+            <li>
+                <strong><%= libro.titolo %></strong> - 
+                <a href="/libro/<%= libro.id %>">Vedi Dettagli</a> | 
+                <a href="/modifica/<%= libro.id %>">Modifica</a> | 
+                <a href="/elimina/<%= libro.id %>" style="color: red;">Elimina</a>
+            </li>
+        <% }); %>
+    </ul>
+<% } %>
+
+<%- include('partials/footer') %>
